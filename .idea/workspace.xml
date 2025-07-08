@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2539de8-cb4a-42cd-a9ea-9938a68c235c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/API complaints.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run/config.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/run/database.db" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql/deafull.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sql/table.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/data/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/program.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d12b906-6768-41f7-ac34-bc27bac71e58.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2d12b906-6768-41f7-ac34-bc27bac71e58/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/852c2188-dd6c-4073-8afb-a98fcb4e2e84.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/852c2188-dd6c-4073-8afb-a98fcb4e2e84/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/sentiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.env" beforeDir="false" afterPath="$PROJECT_DIR$/config.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,9 +31,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2zadcvMFsprWVmvi4S8eBSQafAD" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -48,7 +45,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -83,6 +80,7 @@
       <option name="presentableId" value="Default" />
       <updated>1751973201243</updated>
       <workItem from="1751973202334" duration="966000" />
+      <workItem from="1751990916762" duration="1397000" />
     </task>
     <servers />
   </component>
