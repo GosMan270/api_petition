@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS complaints (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    text TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'open',
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sentiment TEXT NOT NULL DEFAULT 'neutral',
+    category TEXT NOT NULL DEFAULT 'другое'
+);
