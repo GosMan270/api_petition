@@ -48,7 +48,6 @@ class ProjectDatabase(Database):
         return await self.execute_get_query("SELECT * FROM subscriptions")
 
     async def add_other(self, text, status, ts, sentiment, category):
-        print('add_other')
         await self.execute_query(
             "INSERT INTO complaints (text, status, timestamp, sentiment, category) VALUES (?, ?, ?, ?, ?)",
             (text, status, ts, sentiment, category)

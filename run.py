@@ -3,7 +3,8 @@ from pydantic import BaseModel
 from datetime import datetime
 
 from app.database import DATABASE
-
+from app.sentiment import SENTIMENT
+from app.categorize import CATEGORIZE
 app = FastAPI()
 
 class ComplaintIn(BaseModel):
@@ -28,12 +29,12 @@ async def shutdown():
 @app.post("/complaints", response_model=ComplaintOut)
 async def add_complaint(complaint: ComplaintIn):
     status = "open"
-    sentiment = "unknown"
-    category = "другое"
+    sentiment = await SENTIMENT.APILayer(complaint.text)
+    category = CATEGORIZE.OpenAi(complaint.text)
     ts = datetime.utcnow().isoformat()
 
     await DATABASE.add_other(complaint.text, status, ts, sentiment, category)
-    id = DATABASE.last_id      # теперь получаешь тот id, что сохранился!
+    id = DATABASE.last_id
 
     return ComplaintOut(
         id=id,
