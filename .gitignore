@@ -67,3 +67,6 @@ database.sqlite
 .DS_Store
 *.swp
 *~
+
+
+config.env
