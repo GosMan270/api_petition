@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 from app.database import DATABASE
 from app.sentiment import SENTIMENT
@@ -12,9 +13,7 @@ class ComplaintIn(BaseModel):
 
 class ComplaintOut(BaseModel):
     id: int
-    text: str
     status: str
-    timestamp: str
     sentiment: str
     category: str
 
@@ -26,21 +25,21 @@ async def startup():
 async def shutdown():
     await DATABASE.close_connection()
 
-@app.post("/complaints", response_model=ComplaintOut)
+@app.post("/complaints", response_model=ComplaintOut, response_model_exclude_none=True)
 async def add_complaint(complaint: ComplaintIn):
     status = "open"
-    sentiment = await SENTIMENT.APILayer(complaint.text)
-    category = CATEGORIZE.OpenAi(complaint.text)
+    sentiment = str(await SENTIMENT.analyze_text(complaint.text))
+    print(sentiment[1])
+    category = str(CATEGORIZE.OpenAi(complaint.text))
+    print(category)
     ts = datetime.utcnow().isoformat()
-
     await DATABASE.add_other(complaint.text, status, ts, sentiment, category)
     id = DATABASE.last_id
 
     return ComplaintOut(
         id=id,
-        text=complaint.text,
         status=status,
-        timestamp=ts,
-        sentiment=sentiment,
-        category=category,
+        sentiment=sentiment[1],
+        category=category[0],
     )
+

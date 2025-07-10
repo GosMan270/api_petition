@@ -1,39 +1,38 @@
 import os
 import aiohttp
 import asyncio
-
 from dotenv import load_dotenv
-
 
 class Sentiment:
     def __init__(self):
         self.dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.env')
-        self.dotenv = load_dotenv(self.dotenv_path)
-
+        load_dotenv(self.dotenv_path)  # исправлено: была лишняя запись self.dotenv = окончание в оригинале
 
     async def APILayer(self, message):
         url = "https://api.apilayer.com/sentiment/analysis"
 
         payload = f"{message}".encode("utf-8")
-        headers = {"apikey": f"{os.getenv("API_LAYER_KEY")}"}
-        print(headers)
+        headers = {"apikey": os.getenv('API_LAYER_KEY')}  # исправлено использования кавычек
 
         async with aiohttp.ClientSession() as session:
             async with session.post(url, headers=headers, data=payload) as response:
-                res = response.status
+                result = []
                 data = await response.json()
-                print(res)
-                print(data)
 
-            if res != 200:
-                return 'unknown'
-            else:
-                return data
+                if response.status != 200:
+                    result.append(f"Request status code: {response.status}")
+                    result.append('unknown')
+                else:
+                    result.append(f"Request status code: {response.status}")
+                    # Извлечение значимой части анализа тональности
+                    sentiment_analysis = data.get('sentiment', 'unknown')
+                    result.append(sentiment_analysis)
+
+                return result  # добавили возвращение результата
+
+    async def analyze_text(self, text):
+        result = await self.APILayer(text)
+        return result
 
 
 SENTIMENT = Sentiment()
-
-
-
-
-
