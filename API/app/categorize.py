@@ -14,7 +14,7 @@ class Categorize:
         api_key = os.getenv('OPENAI_API_KEY')
         test_mode = bool(os.getenv('Test_Mode'))
         print(test_mode)
-        url = 'http://127.0.0.1:7000/category'
+        url = 'http://fastapi_test:7000/category'
 
         # Тестовый режим: идем по GET-заглушке
         if test_mode:

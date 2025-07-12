@@ -17,7 +17,7 @@ class Sentiment:
         headers = {"apikey": os.getenv('API_LAYER_KEY')}  # исправлено использования кавычек
 
         if test_mode:
-            url = 'http://localhost:7000/sentiment'
+            url = 'http://fastapi_test:7000/sentiment'
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as response:
                     try:

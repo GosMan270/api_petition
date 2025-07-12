@@ -1,0 +1,432 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1640,
+        220
+      ],
+      "id": "6286f884-4cc1-460c-9c73-9e9f97bee193",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=http://fastapi_main:8000/complaints?status=open&timestamp={{$json.since}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1200,
+        220
+      ],
+      "id": "2c814b04-b501-4210-b349-7c8101aef872",
+      "name": "HTTP Request",
+      "alwaysOutputData": true,
+      "retryOnFail": false
+    },
+    {
+      "parameters": {
+        "jsCode": "// Вычисляем ISO-дату минус 1 час\nconst since = new Date(Date.now() - 60*60*1000).toISOString();\n\n// Добавляем \"since\" ко всем входящим элементам\nfor (const item of items) {\n  item.json.since = since;\n}\nreturn items;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1420,
+        220
+      ],
+      "id": "8c85e796-fc67-49fe-88b4-760b1c8751d1",
+      "name": "Code",
+      "alwaysOutputData": true,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "техническая",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2722e3ca-2b5e-49ee-9299-837048262d46"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7ac537fd-77e6-4cce-a321-3ecbc593b14b",
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "платежи",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -980,
+        220
+      ],
+      "id": "87da3c87-5a95-49c5-a8c9-a0d5327f618e",
+      "name": "Switch",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "chatId": "985112026",
+        "text": "=ID: {{ $json.id }}\nНовая техническая жалоба: {{ $json.text }}\nТональность: {{ $json.sentiment }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        120
+      ],
+      "id": "afe6b516-49a2-4958-9491-a68ccc67c9ef",
+      "name": "Send a text message",
+      "webhookId": "9a34b8b3-1384-47be-89bf-765cc7e24735",
+      "alwaysOutputData": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "W99Wczg7HSXjUq4Y",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://fastapi_main:8000/close ",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"id\": {{ $('Switch').item.json.id }}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9b8c13d2-f17e-445a-82a6-c6c6489e4e49",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://fastapi_main:8000/close",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"id\": {{ $('Switch').item.json.id }}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        0,
+        420
+      ],
+      "id": "54ace171-0725-4e33-91ee-fd50f1e9fcf6",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-kXYqQhwjbJb0L7W-P7y4x1gwtlEPyLOxUOY-OeRmEs",
+          "mode": "list",
+          "cachedResultName": "жалобы",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-kXYqQhwjbJb0L7W-P7y4x1gwtlEPyLOxUOY-OeRmEs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-kXYqQhwjbJb0L7W-P7y4x1gwtlEPyLOxUOY-OeRmEs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "дата": "={{ $('Code').item.json['Readable date'] }}",
+            "жалоба": "={{ $json.text }}",
+            "тональность": "={{ $json.sentiment }}"
+          },
+          "matchingColumns": [
+            "дата"
+          ],
+          "schema": [
+            {
+              "id": "дата",
+              "displayName": "дата",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "жалоба",
+              "displayName": "жалоба",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "тональность",
+              "displayName": "тональность",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -560,
+        360
+      ],
+      "id": "ca895759-62c0-45a3-96c6-da4c8dd520c1",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LpSSEw7KLfrDMTIW",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "46078a2b-2309-47e1-9d43-2a2329e6a5e1",
+              "leftValue": "={{ $('Switch').item.json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        120
+      ],
+      "id": "e146d703-59fe-49fe-b494-3f7a11e5c35d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "46078a2b-2309-47e1-9d43-2a2329e6a5e1",
+              "leftValue": "={{ $('Switch').item.json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        360
+      ],
+      "id": "d9569357-c1e2-4946-ae72-03cd6870687f",
+      "name": "If1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "34a33637-b33c-4655-aa93-6ddf9bdb0d79",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "866ff05283f6c877f8521316fc47b3fab81102e014a27d17023789f16465f553"
+  },
+  "id": "cDbQ1xhVeFB72Akr",
+  "tags": []
+}

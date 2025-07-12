@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  fastapi_main:
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    container_name: fastapi_main
+    restart: unless-stopped
+    volumes:
+      - ./API:/app
+
+  fastapi_test:
+    build:
+      context: ./test_mode_api
+      dockerfile: Dockerfile
+    ports:
+      - "7000:8000"      # внутри контейнера сервис тоже на 8000, но наружу на 7000
+    container_name: fastapi_test
+    restart: unless-stopped
+    volumes:
+      - ./test_mode_api:/app
+
+  n8n:
+    build:
+      context: ./n8n-custom
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - N8N_EDITOR_BASE_URL=http://localhost:5678
+      - N8N_WEBHOOK_URL=http://localhost:5678
+      - N8N_SECURE_COOKIE=false
