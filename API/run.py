@@ -8,6 +8,7 @@ from app.database import DATABASE
 from app.sentiment import SENTIMENT
 from app.categorize import CATEGORIZE
 
+
 app = FastAPI()
 
 
@@ -18,6 +19,7 @@ class ComplaintIn(BaseModel):
 class ComplaintClose(BaseModel):
     id: int
 
+
 class ComplaintOut(BaseModel):
     id: int
     text: str
@@ -25,16 +27,20 @@ class ComplaintOut(BaseModel):
     sentiment: str
     category: str
 
+
 class ComplaintStatusUpdate(BaseModel):
     status: str
+
 
 @app.on_event("startup")
 async def startup():
     await DATABASE.open_connection("database.sqlite")
 
+
 @app.on_event("shutdown")
 async def shutdown():
     await DATABASE.close_connection()
+
 
 @app.post("/complaints", response_model=ComplaintOut, response_model_exclude_none=True)
 async def add_complaint(complaint: ComplaintIn):
@@ -46,7 +52,6 @@ async def add_complaint(complaint: ComplaintIn):
     category_value = category[0]
 
     ts = datetime.utcnow().isoformat()
-    # Предполагаем, что add_other возвращает id вставленной записи
     await DATABASE.add_other(complaint.text, status, ts, sentiment_value, category_value)
     id = DATABASE.last_id
 
@@ -76,7 +81,6 @@ async def get_complaints(
         ts = datetime.fromisoformat(timestamp.replace("Z", ""))  # если приходит с Z на конце
     rows = await DATABASE.get_complaints_filtered(status=status, since=ts)
 
-    # Порядок соответствующий таблице complaints (id, text, status, timestamp, sentiment, category, ip)
     return [
         ComplaintOut(
             id=row[0],
@@ -94,9 +98,7 @@ async def update_complaint_status(
     complaint_id: int,
     update: ComplaintStatusUpdate
 ):
-    # 1. Обновление статуса
     await DATABASE.update_status(complaint_id, update.status)
-    # 2. Выборка обновлённой жалобы
     rows = await DATABASE.get_complaints_filtered()
     complaint_row = next((row for row in rows if row[0] == complaint_id), None)
     if not complaint_row:

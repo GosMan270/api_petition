@@ -2,6 +2,5 @@ fastapi
 uvicorn[standard]
 aiohttp
 pydantic
-aiosqlite  # если база на асинхронном sqlite
-openai     # если есть OpenAI-категоризация (убери, если не используешь)
-httpx      # для асинхронных HTTP-запросов (если вдруг нужен)
+aiosqlite
+openai

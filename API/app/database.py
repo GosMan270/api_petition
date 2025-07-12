@@ -1,5 +1,7 @@
 import aiosqlite
 
+
+
 class Database:
     def __init__(self):
         self.connection: aiosqlite.Connection = None
@@ -36,13 +38,11 @@ class ProjectDatabase(Database):
     def __init__(self):
         super().__init__()
 
-
     async def add_other(self, text, status, ts, sentiment, category):
         await self.execute_query(
             "INSERT INTO complaints (text, status, timestamp, sentiment, category) VALUES (?, ?, ?, ?, ?)",
             (text, status, ts, sentiment, category)
         )
-
 
     async def get_complaints_filtered(self, status=None, since=None):
         query = "SELECT * FROM complaints WHERE 1=1"
@@ -57,13 +57,11 @@ class ProjectDatabase(Database):
             rows = await cursor.fetchall()
             return rows
 
-
     async def update_status(self, complaint_id: int, status: str):
         await self.execute_query(
             "UPDATE complaints SET status = ? WHERE id = ?",
             (status, complaint_id)
         )
-
 
 
 
