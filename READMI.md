@@ -111,11 +111,10 @@ API_PETITION/
 
 ```env
 API_LAYER_KEY=fvYs9OIPg8VQi9IMGtETgCeWvlIL9PqB
-OPENAI_API_KEY=...
+OPENAI_API_KEY=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
 Test_Mode=True
 ```
 
-*Пример настоящих ключей не выкладывайте в открытый репозиторий!*
 
 ---
 
