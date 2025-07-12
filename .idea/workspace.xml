@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6c512c3-c250-41a0-ad50-76a4a26041cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/READMI.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/API/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/API/app/categorize.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/app/categorize.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/READMI" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/app/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/app/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/app/sentiment.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/app/sentiment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/API/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/API/run.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/n8n-custom/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/n8n-custom/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_mode_api/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/test_mode_api/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_mode_api/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test_mode_api/requirements.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_mode_api/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_mode_api/run.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1752306354838</updated>
-      <workItem from="1752306356002" duration="8092000" />
+      <workItem from="1752306356002" duration="10486000" />
     </task>
     <servers />
   </component>

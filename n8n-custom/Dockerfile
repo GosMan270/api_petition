@@ -5,8 +5,7 @@ USER root
 WORKDIR /data
 
 COPY package.json ./
-
-RUN npm install
+RUN npm install && chown -R node:node /data/node_modules
 
 USER node
 
