@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS complaints (
     category TEXT NOT NULL DEFAULT 'другое'
 );
 
-CREATE TABLE IF NOT EXISTS check_spam (
-    ip INTEGER PRIMARY KEY NOT NULL,
-    number_requests TEXT NOT NULL,
-    block TEXT NOT NULL DEFAULT 'open',
+CREATE TABLE IF NOT EXISTS ip (
+    ip TEXT PRIMARY KEY NOT NULL,
+    number_requests INTEGER NOT NULL,
+    block TEXT NOT NULL DEFAULT 'open'
 );

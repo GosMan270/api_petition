@@ -1,6 +1,5 @@
 import aiosqlite
 
-
 class Database:
     def __init__(self):
         self.connection: aiosqlite.Connection = None
@@ -37,21 +36,35 @@ class ProjectDatabase(Database):
     def __init__(self):
         super().__init__()
 
-    async def get_or_create_user(self, tg_id: int, create_if_not_found: bool = True):
-        rows = await self.execute_get_query("SELECT * FROM users WHERE id = ?", (tg_id,))
-        if not rows and create_if_not_found:
-            await self.execute_query("INSERT INTO users(id) VALUES (?)", (tg_id,))
-            rows = await self.execute_get_query("SELECT * FROM users WHERE id = ?", (tg_id,))
-        return rows[0] if rows else None
-
-    async def get_subscriptions(self):
-        return await self.execute_get_query("SELECT * FROM subscriptions")
 
     async def add_other(self, text, status, ts, sentiment, category):
         await self.execute_query(
             "INSERT INTO complaints (text, status, timestamp, sentiment, category) VALUES (?, ?, ?, ?, ?)",
             (text, status, ts, sentiment, category)
         )
+
+
+    async def get_complaints_filtered(self, status=None, since=None):
+        query = "SELECT * FROM complaints WHERE 1=1"
+        params = []
+        if status:
+            query += " AND status = ?"
+            params.append(status)
+        if since:
+            query += " AND timestamp >= ?"
+            params.append(since.isoformat())
+        async with self.connection.execute(query, params) as cursor:
+            rows = await cursor.fetchall()
+            return rows
+
+
+    async def update_status(self, complaint_id: int, status: str):
+        await self.execute_query(
+            "UPDATE complaints SET status = ? WHERE id = ?",
+            (status, complaint_id)
+        )
+
+
 
 
 DATABASE = ProjectDatabase()
